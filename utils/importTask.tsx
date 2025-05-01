@@ -1,107 +1,232 @@
 import * as FileSystem from 'expo-file-system';
-import { Task, TaskMetadata, Subtask, Attachment,  } from './Task';
-import { parse } from '@babel/core';
+import { Task, TaskMetadata, Subtask, Attachment } from '@/utils/Task';
+import YAML from 'yaml';
+import { Platform } from 'react-native';
 
-function isMarkdownFile(fileUri: string): boolean {
-    return fileUri.endsWith('.md');
+export function parseDate(date?: string): Date | undefined {
+  return date ? new Date(date) : undefined;
 }
 
-function isJsonFile(fileUri: string): boolean {
-    return fileUri.endsWith('.json');
-}
+export function extractMetadata(content: string): TaskMetadata | null {
+  const metadataMatch = content.match(/<!--([\s\S]*?)-->/);
 
-export function splitRawContent(fileContent: string): string[] {
-    return fileContent
-        .trim()
-        .split(/\n##\s+/)//Spliting by "## "
-        .map(task => task.replace(/^##\s*/, "").trim());//Deleting "## " from tasks
-}
-
-function parseMetadata(metadata: string): TaskMetadata {
-    const id = parseInt(metadata.match(/id:\s*(\d+)/)?.[1] || '0');
-    const status = metadata.includes('status: [x]');
-    const startDate = metadata.includes('start:') ? metadata.match(/start:\s*([d-]+)/)?.[1] : metadata.match(/rozpoczęcie:\s*([d-]+)/)?.[1];
-    const deadline = metadata.includes('deadline:') ? metadata.match(/deadline:\s*([d-]+)/)?.[1] : metadata.match(/termin:\s*([d-]+)/)?.[1];
-    const reward = metadata.includes('reward:') ? parseInt(metadata.match(/reward:\s*(\d+)/)?.[1] || '0') : parseInt(metadata.match(/nagroda:\s*(\d+)/)?.[1] || '0');
-
-    return {
-        id: id.toString(),
-        status,
-        startDate: startDate ? new Date(startDate) : undefined,
-        deadline: deadline ? new Date(deadline) : undefined,
-        reward,
-    };
-}
-
-export function parseSubtasks(subtasks: string): Subtask[] {
-
-    // Extracting via matchAll method to get all subtasks in array.
-    // Array includes items, where
-    // item[0] is the whole line
-    // item[1] is the completed status - space or x
-    // item[2] is the title
-    const matches = subtasks.matchAll(/^\s*- \[( |x)] (.*)/gm);
-    const arr = [...matches];
-    let result: Subtask[] = [];
+  if (!metadataMatch) return null;
+  try {
+    let raw = metadataMatch[1].trim();
+    if (raw.startsWith('metadata:')) {
+      raw = raw.trim().slice('metadata:'.length);
+    }
+    const parsed = YAML.parse(raw);
+    const startDate = parsed.start || parsed.rozpoczenie;
+    const deadline = parsed.deadline || parsed.termin;
     
-    for (let i = 0; i < arr.length; i++) {
-        const match = arr[i];
-        const completed = match[1] === 'x';
-        const title = match[2].trim();
-        result.push({ title, completed });
-    }
-
-    return result;
+    return {
+      id: parsed.id?.toString() || '',
+      status: Array.isArray(parsed.status) ? parsed.status.includes('x') : parsed.status === 'x',
+      startDate: parseDate(startDate),
+      deadline: parseDate(deadline),
+      reward: Number(parsed.reward || parsed.nagroda) || 0
+    };
+  } catch (error) {
+    console.warn('Metadata parsing failed:', error);
+    return null;
+  }
 }
 
-function attachmentType(path: string): 'file' | 'image' | 'audio' {
-    const extension = path.split('.').pop();
+export function extractTitle(content: string): string {
+  const titleMatch = content.match(/^##\s*(.+)$/m);
+  return titleMatch?.[1]?.trim() || '';
+}
 
-    switch (extension) {
-        case 'jpg':
-        case 'jpeg':
-        case 'png':
-        case 'gif':
-            return 'image';
-        case 'mp3':
-        case 'wav':
-        case 'ogg':
-            return 'audio';
-        default:
-            return 'file';
-    }
+export function extractDescription(content: string): string {
+  const descMatch = content.match(/(?:Description|Opis):\s*([^\n]+)/);
+  return descMatch?.[1]?.trim() || '';
+}
+
+export function parseSubtasks(content: string): Subtask[] {
+  const subtasksSection = content.match(/(?:Subtasks|Podzadania):\r?\n([\s\S]*?)(?=\r?\n## |\r?\nAttachments|\r?\nZałączniki|$)/);
+  if (!subtasksSection) return [];
+
+  const subtaskLines = subtasksSection[1].replace(/\r/g, '').split('\n');
+  return subtaskLines
+    .map(line => {
+      const match = line.match(/^-\s*\[([ x])\]\s*(.+)$/);
+      if (!match) return null;
+      return {
+        completed: match[1] === 'x',
+        title: match[2].trim()
+      };
+    })
+    .filter((task): task is Subtask => task !== null);
+}
+
+export function getAttachmentType(path: string): 'image' | 'audio' | 'file' {
+  const ext = path.toLowerCase().split('.').pop();
+  if (['jpg', 'jpeg', 'png', 'gif'].includes(ext || '')) return 'image';
+  if (['mp3', 'wav', 'ogg', 'm4a'].includes(ext || '')) return 'audio';
+  return 'file';
+}
+
+function resolveAttachmentPath(path: string, baseDir: string): string {
+  if (
+    (/^(https?|data):\/\//.test(path)) ||
+    (/^[a-zA-Z]:[\\/]/.test(path) || path.startsWith('/')) ||
+    (path.startsWith('file://'))
+  ) return path;
+
+  const cleanBase = baseDir.replace(/\/+$/, '');
+  const cleanRel = path.replace(/^\.?\/+/, '');
+  return `${cleanBase}/${cleanRel}`;
+}
+
+// TODO
+function normalizeFilename(uri: string): string {
+  const name = uri.split('/').pop()?.split('.').shift() ?? 'import';
+  return name.replace(/[^\w\-]/g, '_');
+}
+
+function getFilenameFromPath(path: string): string {
+  return path.split(/[\\/]/).pop() ?? 'file';
+}
+
+// Returns unique filename by checking if file exists in directory and appending counter
+async function getUniqueFilename(baseDir: string, filename: string): Promise<string> {
+  const [name, ext = ''] = filename.split(/\.(?=[^.]+$)/);
+  let result = filename;
+  let counter = 1;
+
+  while (await FileSystem.getInfoAsync(baseDir + result).then(f => f.exists)) {
+    result = `${name}-${counter++}${ext ? '.' + ext : ''}`;
+  }
+  return result;
+}
+
+function isUrl(path: string): boolean {
+  return /^https?:\/\//.test(path);
+}
+function isAbsolutePath(path: string): boolean {
+  return isUrl(path) || /^[a-zA-Z]:[\\/]/.test(path) || path.startsWith('/') || path.startsWith('file://');
 }
 
 
-export function parseAttachments(attachments: string): Attachment[] {
-    const lines = attachments.split('\n');
-    const regexInline = /- !\[(.*?)\]\((.*?)\)/;
-    const regexList = /- (.*?): `(.*?)`/;
-    let result: Attachment[] = [];
-    for (const line of lines) {
-        const match = line.includes('![') ? line.match(regexInline) : line.match(regexList);
-        if (match) {
-            const altText = match[1];
-            const path = match[2];
-            const type = attachmentType(path);
-            result.push({ path, type, altText, inline: line.includes('![') });
-        }
-    }
-    console.log(result);
-    return result;
-}
+export async function parseAttachments(content: string, sourceUri: string): Promise<Attachment[]> {
+  const attachmentsSection = content.match(/(?:Attachments|Załączniki):\r?\n([\s\S]*?)(?=\r?\n## |\r?\n?$)/);
+  if (!attachmentsSection) return [];
+  const attachmentLines = attachmentsSection[1].replace(/\r/g, '').split('\n');
 
-//TODO
-export async function importTask(fileUri: string): Promise<Task[]> {
+  const importId = normalizeFilename(sourceUri);
+  const destImportDir = `${FileSystem.documentDirectory}imports/${importId}/`;
+  alert(destImportDir);
+  const sourceDir = sourceUri.substring(0, sourceUri.lastIndexOf('/'));
+  
+  if (Platform.OS !== 'web') {
+    await FileSystem.makeDirectoryAsync(destImportDir, { intermediates: true });
+  }
+  else {
+    console.warn('Attachments import is not supported on web yet.');
+  }
+  const attachments: Attachment[] = [];
+  
+  for (const line of attachmentLines) {
+    if (!line.trim()) continue;
+    
+    let match;
+    let altText = '', originalPath = '', inline = false;
+
+    if (match = line.match(/^-\s*!\[(.*?)\]\((.*?)\)$/)) {
+      altText = match[1];
+      originalPath = match[2];
+      inline = true;
+    } else if (match = line.match(/^-\s*(.*?):\s*`(.*?)`$/)) {
+      altText = match[1];
+      originalPath = match[2];
+      inline = false;
+    } else {
+      continue;
+    }
+
+    //TODO
+    let finalPath = originalPath;
+    const filename = Platform.OS !== 'web' ? await getUniqueFilename(destImportDir, getFilenameFromPath(originalPath)) : getFilenameFromPath(originalPath);
+    const destPath = Platform.OS !== 'web' ? `${destImportDir}${filename}` : `${destImportDir}${getFilenameFromPath(originalPath)}`;
+
     try {
-        const fileContent = await FileSystem.readAsStringAsync(fileUri, { encoding: 'utf8' });
-        const tasks = splitRawContent(fileContent);
-        return [];
-    } catch (error) {
-        console.error("Error reading file", error);
-        return [];
+      
+      if (Platform.OS === 'web') {
+        console.warn('Attachments import is not supported on web yet.\nOriginal paths will be used.');
+        finalPath = originalPath;
+      } else {
+        if (isUrl(originalPath)) {
+          await FileSystem.downloadAsync(originalPath, destPath);
+        } else if (isAbsolutePath(originalPath)) {
+          // alert(`AbsolutePath\t${originalPath}`);
+          await FileSystem.copyAsync({ from: originalPath, to: destPath });
+        } else {
+          const relativePath = `${sourceDir}/${originalPath.replace(/^\.\//, '')}`;
+          await FileSystem.copyAsync({ from: relativePath, to: destPath });
+        }
+        finalPath = destPath;
+        alert(`FinalPath\t${finalPath}`);
+      }
+      attachments.push({
+        altText,
+        path: finalPath,
+        type: getAttachmentType(finalPath),
+        inline
+      });
+    } catch (e) {
+      alert(`Error\t${e}`);
+      console.warn('Failed to handle attachments import', originalPath, e);
+      attachments.push({
+        altText,
+        path: originalPath,
+        type: getAttachmentType(originalPath),
+        inline
+      })
     }
+  }
+
+  return attachments;
 }
 
 
-parseSubtasks(`- [ ] Zadanie 1\n- [x] Zadanie 2\n       - [ ] Zadanie 3`);
+
+
+
+
+export async function importTask(fileUri: string): Promise<Task[]> {
+  try {
+    let content: string;
+    console.warn(fileUri);
+    if (Platform.OS === 'web') {
+      // Web
+      const response = await fetch(fileUri);
+      content = await response.text();
+    } else {
+      // Mobile
+      content = await FileSystem.readAsStringAsync(fileUri);
+    }
+
+    const tasks = content.split(/(?=^##\s)/m).filter(Boolean);
+
+    return await Promise.all(
+    tasks.map(async taskContent => {
+      const metadata = extractMetadata(taskContent) || {
+        id: Date.now().toString(),
+        status: false,
+        reward: 0
+      };
+
+      return {
+        metadata,
+        title: extractTitle(taskContent),
+        description: extractDescription(taskContent),
+        subtasks: parseSubtasks(taskContent),
+        attachments: await parseAttachments(taskContent, fileUri),
+      };
+    }));
+  } catch (error) {
+    console.error('Error importing tasks:', error);
+    return [];
+  }
+}
