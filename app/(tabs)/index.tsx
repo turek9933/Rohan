@@ -1,4 +1,6 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { useState } from 'react';
+import { Text, Image, StyleSheet, Platform } from 'react-native';
+import { compareStartDates, compareDeadlines, compareNames, compareRewards } from '@/utils/Task';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -6,52 +8,49 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+  const { quests, editQuest, toggleQuest } = useQuestContext()!;
+  type SortOption = 'start_desc' | 'start_asc' | 'deadline_desc' | 'deadline_asc' | 'name_asc' | 'name_desc' | 'reward_asc' | 'reward_desc';
+  const [sortOption, setSortOption] = useState<SortOption>('deadline_desc');
+  
+  const sortedQuests = [...quests].sort((a, b) => {
+    switch (sortOption) {
+      case 'start_desc':
+        return compareStartDates(b, a);
+      case 'start_asc':
+        return compareStartDates(a, b);
+      case 'deadline_desc':
+        return compareDeadlines(b, a);
+      case 'deadline_asc':
+        return compareDeadlines(a, b);
+      case 'name_asc':
+        return compareNames(a, b);
+      case 'name_desc':
+        return compareNames(b, a);
+      case 'reward_asc':
+        return compareRewards(a, b);
+      case 'reward_desc':
+        return compareRewards(b, a);
+    }
+  })
+
+  const sections = [
+    {
+      title: "Undone",//TODO: translate
+      data: sortedQuests.filter(item => !item.metadata.status),
+    },
+    {
+      title: "Done",
+      data: sortedQuests.filter(item => item.metadata.status),
+    },
+  ];
+  
+  const renderSectionHeader = ({ section }: { section: { title: string } }) => (
+    <Text>{section.title}</Text>
   );
+
+  return (
+    <Text style={styles.titleContainer}>Hello World</Text>
+  )
 }
 
 const styles = StyleSheet.create({
