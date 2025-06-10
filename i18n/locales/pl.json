@@ -1,0 +1,92 @@
+{
+  "header": {
+    "title": "Moja Aplikacja",
+    "subtitle": "Witaj w naszym serwisie"
+  },
+  "buttons": {
+    "sign_in": "Zaloguj się",
+    "sign_up": "Zarejestruj się",
+    "logout": "Wyloguj"
+  },
+  "messages": {
+    "unread": "Masz {{count}} nieprzeczytaną wiadomość",
+    "unread_plural": "Masz {{count}} nieprzeczytanych wiadomości",
+    "unread_few": "Masz {{count}} nieprzeczytane wiadomości"
+  },
+  "login": {
+    "header": "Logowanie",
+    "email": "Adres e-mail",
+    "emailPlaceholder": "Adres e-mail",
+    "password": "Hasło",
+    "passwordPlaceholder": "Hasło",
+    "login": "Zaloguj się",
+    "error": "Błędny adres e-mail lub hasło",
+    "noAccount": "Nie masz konta?",
+    "register": "Zarejestruj się"
+  },
+  "register": {
+    "header": "Rejestracja",
+    "email": "Adres e-mail",
+    "emailPlaceholder": "Adres e-mail",
+    "password": "Hasło",
+    "passwordPlaceholder": "Hasło",
+    "confirmPassword": "Potwierdź hasło",
+    "confirmPasswordPlaceholder": "Potwierdź hasło",
+    "register": "Zarejestruj się",
+    "error": "Błędny dane rejestracyjne",
+    "alreadyHaveAccount": "Masz już konto?",
+    "login": "Zaloguj się"
+  },
+  "help": {
+    "header": "Pomoc",
+    "tip1_Header": "Zarządzanie Quest-ami",
+    "tip1_Body": "Dodawaj, edytuj i odznaczaj zadania. Każde zadanie jest traktowane jako \"misja\", aby śledzić Twoje postępy",
+    "tip2_Header": "Responsywny interfejs",
+    "tip2_Body": "Aplikacja automatycznie dostosowuje się do różnych rozmiarów ekranów i orientacji, aby zapewnić płynne doświadczenia użytkownikowi."
+  },
+  "settings": {
+    "header": "Ustawienia",
+    "language": "Jezyk",
+    "theme": "Motyw",
+    "light": "Jasny",
+    "cyber": "Cyber",
+    "dark": "Ciemny",
+    "fontList": "Lista fontów",
+    "help": "Pomoc",
+    "logout": "Wyloguj",
+    "fontPlaceholder": "Wybierz font"
+  },
+  "add": {
+    "header": "Dodaj Misję",
+    "title": "Tytuł",
+    "titlePlaceholder": "Wpisz tytuł",
+    "description": "Opis",
+    "descriptionPlaceholder": "Wpisz opis",
+    "add": "Dodaj",
+    "error": "Błąd dodawania Misji",
+    "cancel": "Anuluj",
+    "validationError": "Błędne dane Misji",
+    "titleRequired": "Tytuł jest wymagany",
+    "importTitle": "Importuj Misje",
+    "importFeature": "Niedługo dodamy import Misji",
+    "importError": "Błąd podczas importowania Misji",
+    "importFromMarkdown": "Import z Markdown",
+    "details": "Szczegóły Misji",
+    "subquests": "Podmisje",
+    "subquestPlaceholder": "Treść podmisji",
+    "attachmentError": "Błąd podczas dodawania załącznika",
+    "attachments": "Załączniki",
+    "attachmentImage": "Obraz",
+    "attachmentAudio": "Dźwiek",
+    "attachmentFile": "Dokument",
+    "notifications": "Powiadomienia",
+    "dateSelect": "Wybierz datę",
+    "startDate": "Data rozpoczęcia",
+    "deadline": "Termin ukończenia",
+    "reword": "Nagroda",
+    "rewordPlaceholder": "Wpisz liczbę punktów",
+    "saving": "Zapisywanie...",
+    "confirm": "Potwierdź",
+    "update": "Aktualizuj"
+  }
+}

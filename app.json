@@ -1,13 +1,18 @@
 {
   "expo": {
-    "name": "rohan",
-    "slug": "rohan",
+    "name": "Rohan",
+    "slug": "Rohan",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "rohan",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/images/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
       "supportsTablet": true
     },
@@ -15,7 +20,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.Rohan"
     },
     "web": {
       "bundler": "metro",
@@ -25,12 +32,13 @@
     "plugins": [
       "expo-router",
       [
-        "expo-splash-screen",
+        "expo-font",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "fonts": [
+            "./assets/fonts/Orbitron-Black.ttf",
+            "./assets/fonts/Orbitron-Regular.ttf",
+            "./assets/fonts/Orbitron-Bold.ttf",
+          ]
         }
       ]
     ],

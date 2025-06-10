@@ -1,0 +1,92 @@
+{
+  "header": {
+    "title": "My Application",
+    "subtitle": "Welcome to our service"
+  },
+  "buttons": {
+    "sign_in": "Sign In",
+    "sign_up": "Sign Up",
+    "logout": "Logout"
+  },
+  "messages": {
+    "unread": "You have {{count}} unread message",
+    "unread_plural": "You have {{count}} unread messages",
+    "unread_few": "You have {{count}} unread messages"
+  },
+  "login": {
+    "header": "Login",
+    "email": "Email",
+    "emailPlaceholder": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "login": "Login",
+    "error": "Invalid email or password",
+    "noAccount": "Don't have an account?",
+    "register": "Register"
+  },
+  "register": {
+    "header": "Register",
+    "email": "Email",
+    "emailPlaceholder": "Email",
+    "password": "Password",
+    "passwordPlaceholder": "Password",
+    "confirmPassword": "Confirm Password",
+    "confirmPasswordPlaceholder": "Confirm Password",
+    "register": "Register",
+    "error": "Invalid registration data",
+    "alreadyHaveAccount": "Already have an account?",
+    "login": "Login"
+  },
+  "help": {
+    "header": "Help",
+    "tip1_Header": "Quests management",
+    "tip1_Body": "Add, edit, and mark tasks as completed. Each task is treated as a “mission” to help track your progress.",
+    "tip2_Header": "Responsive Interface",
+    "tip2_Body": "The app automatically adjusts to different screen sizes and orientations for a smooth user experience."
+  },
+  "settings": {
+    "header": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "cyber": "Cyber",
+    "dark": "Dark",
+    "fontList": "Font List",
+    "help": "Help",
+    "logout": "Logout",
+    "fontPlaceholder": "Select font"
+  },
+  "add": {
+    "header": "Add Quest",
+    "title": "Title",
+    "titlePlaceholder": "Enter title",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter description",
+    "add": "Add",
+    "error": "Error during saving Quest",
+    "cancel": "Cancel",
+    "validationError": "Invalid Quest data",
+    "titleRequired": "Title is required",
+    "importTitle": "Import Quests",
+    "importFeature": "Import Quests coming soon",
+    "importError": "Error during importing Quests",
+    "importFromMarkdown": "Import from Markdown",
+    "details": "Quest Details",
+    "subquests": "Subquests",
+    "subquestPlaceholder": "Enter Subquest",
+    "attachmentError": "Error during saving attachments",
+    "attachments": "Attachments",
+    "attachmentImage": "Image",
+    "attachmentAudio": "Audio",
+    "attachmentFile": "File",
+    "notifications": "Notifications",
+    "dateSelect": "Select date",
+    "startDate": "Start date",
+    "deadline": "Deadline",
+    "reword": "Reward",
+    "rewordPlaceholder": "Enter points",
+    "saving": "Saving...",
+    "confirm": "Confirm",
+    "update": "Update"
+  }
+}
