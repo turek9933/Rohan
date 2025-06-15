@@ -17,7 +17,7 @@ function parseDate(date?: string | Date): Date | undefined {
   return undefined;
 }
 
-function extractMetadata(content: string): QuestMetadata {
+export function extractMetadata(content: string): QuestMetadata {
   const metadataMatch = content.match(/<!--([\s\S]*?)-->/);
 
   if (!metadataMatch) {
@@ -65,17 +65,17 @@ function extractMetadata(content: string): QuestMetadata {
   }
 }
 
-function extractTitle(content: string): string {
+export function extractTitle(content: string): string {
   const match = content.match(/^##\s*(.+)$/m);
   return match?.[1]?.trim() || '';
 }
 
-function extractDescription(content: string): string {
+export function extractDescription(content: string): string {
   const match = content.match(/(?:Description|Opis):\s*([^\n\r]+)/i);
   return match?.[1]?.trim() || '';
 }
 
-function parseSubQuests(content: string): SubQuest[] {
+export function parseSubQuests(content: string): SubQuest[] {
   const sectionMatch = content.match(/(?:SubQuests|SubTasks|Subquests|SubTasks||Podzadania|PodMisje|Podmisje|):\s*\r?\n([\s\S]*?)(?=\r?\n#+\s|\r?\n?$)/i);
   if (!sectionMatch) return [];
 
@@ -95,7 +95,7 @@ function parseSubQuests(content: string): SubQuest[] {
 
 
 // Convert Quest to QuestFormData for adding
-function questToFormData(quest: Omit<Quest, 'metadata'> & { metadata: Omit<QuestMetadata, 'id'> }): QuestFormData {
+export function questToFormData(quest: Omit<Quest, 'metadata'> & { metadata: Omit<QuestMetadata, 'id'> }): QuestFormData {
   return {
     title: quest.title,
     description: quest.description || '',
