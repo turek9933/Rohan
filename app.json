@@ -5,24 +5,24 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "primaryColor": "#0000FF",
+    "primaryColor": "#7A0B0B",
     "scheme": "rohan",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#00FF00"
+      "backgroundColor": "#7A0B0B"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "icon": "./assets/images/AppIcon-ios.png"
     },
     "android": {
+      "icon": "./assets/images/icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#00FF00"
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#7A0B0B"
       },
-      "edgeToEdgeEnabled": true,
       "package": "com.anonymous.Rohan",
       "permissions": ["ACCESS_FINE_LOCATION"]
     },
@@ -30,7 +30,7 @@
       "bundler": "metro",
       "output": "static",
       "favicon": "./assets/images/favicon.png",
-      "backgroundColor": "#CCCCCC"
+      "backgroundColor": "#7A0B0B"
     },
     "plugins": [
       "expo-router",

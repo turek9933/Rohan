@@ -77,12 +77,12 @@ function RootLayoutNav() {
   
   useEffect(() => {
     if (loading) return;
-    const isAuthPage = pathname.startsWith('/(auth)');
-    const isTabsPage = pathname.startsWith('/(tabs)');
-    
-    if (!user && !isAuthPage) {
+    const isInAuth = pathname.startsWith('/login') || pathname.startsWith('/register');//TODO If auth grows, need to refactor or change
+
+    if (!user && !isInAuth) {
+      console.log("[pathname]:\t", pathname);
       router.replace('/(auth)/login');
-    } else if (user && isAuthPage) {
+    } else if (user && isInAuth) {
       router.replace('/(tabs)');
     }
     

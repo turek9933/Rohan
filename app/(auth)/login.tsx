@@ -35,10 +35,13 @@ console.log('LoginScreen loaded');
     setIsLoading(true);
     setLoginError(false);
     
+    console.error('[(auth)/login] LoginHandle');
     try {
+      console.error('[(auth)/login] LoginHandle is trying to login');
       const success = await login(email, password);
       setLoginError(!success);
     } catch (error) {
+      console.error('[(auth)/login] Login error:', error);
       setLoginError(true);
     } finally {
       setIsLoading(false);
