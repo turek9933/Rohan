@@ -37,7 +37,7 @@ export function SubQuestsList({ subQuests, onChange } : {
         color="$text"
         paddingHorizontal={10}
         >
-          {t('add.subquests')}
+          {t('quests.form.subquests')}
         </Text>
         <Pressable onPress={handleAdd}>
           {({ pressed, hovered }) => (
@@ -59,7 +59,7 @@ export function SubQuestsList({ subQuests, onChange } : {
           <View flex={1}>
             <InputField
               title=""
-              placeholder={t('add.subquestPlaceholder')}
+              placeholder={t('quests.form.subquestPlaceholder')}
               value={subQuest.title}
               onChangeText={(text) => handleChange(index, text)}
             />

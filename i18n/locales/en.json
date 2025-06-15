@@ -54,7 +54,19 @@
     "fontList": "Font List",
     "help": "Help",
     "logout": "Logout",
-    "fontPlaceholder": "Select font"
+    "fontPlaceholder": "Select font",
+    "fonts": {
+      "orbitron": "Orbitron",
+      "roboto": "Roboto",
+      "openSans": "Open Sans",
+      "lato": "Lato",
+      "montserrat": "Montserrat"
+    },
+    "checkLocation": "Check Location",
+    "loading": "Loading...",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "languagePlaceholder": "Select language"
   },
   "add": {
     "header": "Add Quest",
@@ -88,5 +100,118 @@
     "saving": "Saving...",
     "confirm": "Confirm",
     "update": "Update"
+  },
+  "quests": {
+    "header": "Quests",
+    "title": "Title",
+    "description": "Description",
+    "status": "Status",
+    "sort": {
+      "name_asc": "Alphabetically (A-Z)",
+      "name_desc": "Alphabetically (Z-A)",
+      "start_date_asc": "Start date (oldest first)",
+      "start_date_desc": "Start date (newest first)",
+      "deadline_asc": "Deadline (earliest first)",
+      "deadline_desc": "Deadline (latest first)",
+      "reward_asc": "Reward (smallest first)",
+      "reward_desc": "Reward (largest first)",
+      "status_done_first": "Status (done first)",
+      "status_undone_first": "Status (undone first)"
+    },
+    "filter": {
+      "status": {
+        "all": "All",
+        "done": "Done",
+        "undone": "Undone"
+      },
+      "deadline": {
+        "all": "All",
+        "today": "Today",
+        "this_week": "This week",
+        "this_month": "This month",
+        "overdue": "Overdue",
+        "next_24_hours": "Next 24h",
+        "next_7_days": "Next 7 days",
+        "next_30_days": "Next 30 days"
+      },
+      "reward": {
+        "all": "All",
+        "with_reward": "With reward",
+        "without_reward": "Without reward"
+      },
+      "subquest": {
+        "all": "All",
+        "with_subquests": "With subquests",
+        "without_subquests": "Without subquests"
+      }
+    },
+    "sortBy": "Sort by",
+    "statusFilter": "Filter by status",
+    "deadlineFilter": "Filter by deadline",
+    "rewardFilter": "Filter by reward",
+    "subQuestFilter": "Filter by SubQuests",
+    "sortByPrefix": "Sorted: ",
+    "statusFilterPrefix": "Status: ",
+    "deadlineFilterPrefix": "Deadline: ",
+    "rewardFilterPrefix": "Reward: ",
+    "subQuestFilterPrefix": "SubQuests: ",
+    "filtersAndSort": "Filters and sorting",
+    "noQuests": "No quests to display",
+    "done": "Done",
+    "undone": "Undone",
+    "resetFilters": "Reset Filters",
+    "close": "Close",
+    "noDescription": "No description",
+    "startDate": "Start date",
+    "noStartDate": "No start date",
+    "deadline": "Deadline",
+    "noDeadline": "No deadline",
+    "attachments": "Attachments",
+    "reward": "Reward",
+    "form": {
+      "title": "Title",
+      "titlePlaceholder": "Enter title",
+      "description": "Description",
+      "descriptionPlaceholder": "Enter description",
+      "startDate": "Start date",
+      "deadline": "Deadline",
+      "reward": "Reward",
+      "rewardPlaceholder": "Enter points",
+      "subquests": "SubQuests",
+      "subquestPlaceholder": "Enter subquest",
+      "attachments": "Attachments",
+      "notifications": "Notifications",
+      "save": "Save",
+      "update": "Update",
+      "cancel": "Cancel",
+      "attachmentError": "Error during saving attachments",
+      "image": "Image",
+      "file": "File",
+      "audio": "Audio",
+      "dateSelect": "Select date",
+      "importTitle": "Import Quests",
+      "importFeature": "Import Quests coming soon",
+      "importError": "Error during importing Quests",
+      "importFromMarkdown": "Import from Markdown",
+      "validationError": "Invalid Quest data",
+      "titleRequired": "Title is required",
+      "error": "Error during adding Quest",
+      "details": "Quest Details",
+      "saving": "Saving...",
+      "confirm": "Confirm"
+    }
+  },
+  "edit": {
+    "header": "Edit",
+    "delete": "Delete",
+    "notFound": "Quest not found",
+    "ok": "OK",
+    "success": "Quest updated successfully",
+    "error": "Error during updating Quest"
+  },
+  "notFound": {
+    "header": "Page Not Found",
+    "message": "The page you are looking for does not exist.",
+    "back": "Back to Home"
   }
 }

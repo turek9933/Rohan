@@ -57,15 +57,13 @@ export function compareDeadlines(a: Quest, b: Quest): number {
 }
 
 export function compareRewards(a: Quest, b: Quest): number {
-    if (a.metadata.reward && b.metadata.reward) {
-      return a.metadata.reward - b.metadata.reward;
-    } else if (a.metadata.reward && !b.metadata.reward) {
-      return -1;
-    } else if (!a.metadata.reward && b.metadata.reward) {
-      return 1;
-    } else {
-      return compareNames(a, b);
-    }
+  const aFixed = typeof a.metadata.reward === 'number' ? a.metadata.reward : 0;
+  const bFixed = typeof b.metadata.reward === 'number' ? b.metadata.reward : 0;
+
+  if (aFixed !== bFixed) {
+    return aFixed - bFixed;
+  }
+  return compareNames(a, b);
 }
 
 export function getAttachmentType(path: string): 'image' | 'audio' | 'file' {

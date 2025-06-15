@@ -12,9 +12,11 @@ const resources = {
   pl: { translation: translationPL }
 };
 
+const ASYNC_STORAGE_KEY = 'language'
+
 const initI18n = async () => {
     try {
-        let savedLanguage = await AsyncStorage.getItem('language');
+        let savedLanguage = await AsyncStorage.getItem(ASYNC_STORAGE_KEY);
         
         if (!savedLanguage) {
             savedLanguage = Localization.getLocales()[0].languageCode;

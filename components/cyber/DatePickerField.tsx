@@ -72,7 +72,7 @@ export function DatePickerField({
           <Button
             onPress={() => setShowPicker(true)}
           >
-            {value ? value.toLocaleDateString() : t('add.dateSelect')}
+            {value ? value.toLocaleDateString() : t('quests.form.dateSelect')}
           </Button>
           
           {showPicker && (

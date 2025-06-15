@@ -31,15 +31,14 @@ export default function AddScreen({ onClose }: { onClose?: () => void }) {
             }
             };
 
-            console.log(questData);
             await addQuest(questData);
-            console.log('[add.tsx] Quest adding');
                 
             if (onClose) {
             onClose();
             }
 
             Alert.alert('Success', 'Quest added successfully!');
+            router.push('/');
         } finally {
             setIsLoading(false);
         }

@@ -46,6 +46,9 @@ export function QuestForm({
     reward: initialData?.reward || '',
   });
 
+  console.log('Data in QuestForm', formData);
+  console.log('Initial data in QuestForm', initialData);
+
   const updateFormData = (updates: Partial<QuestFormData>) => {
     console.log(updates);//TODO
     setFormData(prev => ({ ...prev, ...updates }));
@@ -54,8 +57,8 @@ export function QuestForm({
   const handleSubmit = async () => {
     if (!formData.title.trim()) {
       Alert.alert(
-        t('add.validationError'),
-        t('add.titleRequired')
+        t('quests.form.validationError'),
+        t('quests.form.titleRequired')
       );
       return;
     }
@@ -65,8 +68,8 @@ export function QuestForm({
     } catch (error) {
       console.error('Error submitting quest:', error);
       Alert.alert(
-        t('add.error'),
-        t('add.error')
+        t('quests.form.error'),
+        t('quests.form.error')
       );
     }
   };
@@ -89,13 +92,13 @@ export function QuestForm({
           {/* Manual Entry Section */}
           <ThemedBox>
             <Text fontFamily="$bold" fontSize="$5" color="$text" marginBottom="$2">
-              {t('add.details')}
+              {t('quests.form.details')}
             </Text>
 
             {/* Title */}
             <InputField
-              title={t('add.title')}
-              placeholder={t('add.titlePlaceholder')}
+              title={t('quests.form.title')}
+              placeholder={t('quests.form.titlePlaceholder')}
               value={formData.title}
               onChangeText={(title) => updateFormData({ title })}
             />
@@ -104,8 +107,8 @@ export function QuestForm({
 
             {/* Description */}
             <InputField
-              title={t('add.description')}
-              placeholder={t('add.descriptionPlaceholder')}
+              title={t('quests.form.description')}
+              placeholder={t('quests.form.descriptionPlaceholder')}
               value={formData.description}
               onChangeText={(description) => updateFormData({ description })}
               minInputHeight={100}
@@ -125,32 +128,32 @@ export function QuestForm({
             <Spacer size={20} />
 
             {/* Attachments */}
-            <AttachmentsPicker
+            {/* <AttachmentsPicker
               attachments={formData.attachments}
               onChange={(attachments) => updateFormData({ attachments })}
-            />
-
+            /> */}
+{/* 
             <Spacer size={20} />
             <Separator borderColor="$borderColor" />
-            <Spacer size={20} />
+            <Spacer size={20} /> */}
 
             {/* Notifications */}
-            <XStack justifyContent="space-between" alignItems="center">
+            {/* <XStack justifyContent="space-between" alignItems="center">
               <Text fontFamily="$bold" fontSize="$4" color="$text">
-                {t('add.notifications')}
+                {t('quests.form.notifications')}
               </Text>
               <CustomSwitch value={formData.enableNotifications} onValueChange={(enableNotifications) => updateFormData({ enableNotifications })} />
-            </XStack>
-
+            </XStack> */}
+{/* 
             <Spacer size={20} />
             <Separator borderColor="$borderColor" />
-            <Spacer size={20} />
+            <Spacer size={20} /> */}
 
             {/* Dates */}
             <XStack gap="$3">
               <YStack flex={1}>
                 <DatePickerField
-                  label={t('add.startDate')}
+                  label={t('quests.form.startDate')}
                   value={formData.startDate}
                   onChange={(startDate) => updateFormData({ startDate })}
                 />
@@ -158,7 +161,7 @@ export function QuestForm({
               
               <YStack flex={1}>
                 <DatePickerField
-                  label={t('add.deadline')}
+                  label={t('quests.form.deadline')}
                   value={formData.deadline}
                   onChange={(deadline) => updateFormData({ deadline })}
                 />
@@ -171,8 +174,8 @@ export function QuestForm({
 
             {/* Reward */}
             <InputField
-              title={t('add.reword')}
-              placeholder={t('add.rewordPlaceholder')}
+              title={t('quests.form.reward')}
+              placeholder={t('quests.form.rewardPlaceholder')}
               value={formData.reward}
               onChangeText={(reward) => updateFormData({ reward })}
               inputMode="numeric"
@@ -191,7 +194,7 @@ export function QuestForm({
                 onPress={onCancel}
                 disabled={isLoading}
               >
-                {t('add.cancel')}
+                {t('quests.form.cancel')}
               </Button>
             )}
             
@@ -202,10 +205,10 @@ export function QuestForm({
               loading={isLoading}
             >
               {isLoading 
-                ? t('add.saving') 
+                ? t('quests.form.saving') 
                 : mode === 'add'
-                  ? t('add.confirm')
-                  : t('add.update')
+                  ? t('quests.form.confirm')
+                  : t('quests.form.update')
               }
             </Button>
           </XStack>

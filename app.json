@@ -5,13 +5,14 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
+    "primaryColor": "#0000FF",
     "scheme": "rohan",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#00FF00"
     },
     "ios": {
       "supportsTablet": true
@@ -19,15 +20,17 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#00FF00"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.Rohan"
+      "package": "com.anonymous.Rohan",
+      "permissions": ["ACCESS_FINE_LOCATION"]
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "backgroundColor": "#CCCCCC"
     },
     "plugins": [
       "expo-router",
@@ -37,13 +40,19 @@
           "fonts": [
             "./assets/fonts/Orbitron-Black.ttf",
             "./assets/fonts/Orbitron-Regular.ttf",
-            "./assets/fonts/Orbitron-Bold.ttf",
+            "./assets/fonts/Orbitron-Bold.ttf"
           ]
         }
       ]
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "8025ee57-aa53-4e7c-a66c-5ed5a0c1beee"
+      }
     }
   }
 }

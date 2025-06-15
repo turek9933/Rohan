@@ -77,8 +77,8 @@ export async function getQuestsByUser(userId: string): Promise<Quest[]> {
                 metadata: {
                     id: doc.id,
                     status: data.metadata.status,
-                    startDate: data.metadata.startDate?.toDate(),
-                    deadline: data.metadata.deadline?.toDate(),
+                    startDate: data.metadata.startDate ? data.metadata.startDate.toDate() : undefined,
+                    deadline: data.metadata.startDate ? data.metadata.startDate.toDate() : undefined,
                     reward: data.metadata.reward,
                 },
                 title: data.title,

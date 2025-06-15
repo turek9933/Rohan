@@ -1,11 +1,11 @@
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Stack, usePathname, useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 import { ThemeProvider } from '@/context/ThemeContext';
 import '@/i18n'
-import { AuthProvider } from '@/context/AuthContext';
+import { AuthProvider, useAuthContext } from '@/context/AuthContext';
 import { QuestProvider } from '@/context/QuestContext';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { I18nextProvider } from 'react-i18next';
@@ -48,33 +48,54 @@ export default function RootLayout() {
     return null;
   }
 
-  return <RootLayoutNav />;
+  return (
+    <ThemeProvider>
+      <StyledSafeAreaView >
+        <I18nextProvider i18n={i18n}>
+          <PortalProvider>
+            <AuthProvider>
+              <QuestProvider>
+                <RootLayoutNav />
+              </QuestProvider>
+            </AuthProvider>
+          </PortalProvider>
+        </I18nextProvider>
+      </StyledSafeAreaView>
+    </ThemeProvider>
+  );
 }
 
 const StyledSafeAreaView = styled(SafeAreaView, {
   flex: 1,
-  backgroundColor: '$background', // "$" oznacza kolor z motywu
+  backgroundColor: '$background',
 });
 
 function RootLayoutNav() {
-
+  const { user, loading } = useAuthContext();
+  const pathname = usePathname();
+  const router = useRouter();
+  
+  useEffect(() => {
+    if (loading) return;
+    const isAuthPage = pathname.startsWith('/(auth)');
+    const isTabsPage = pathname.startsWith('/(tabs)');
+    
+    if (!user && !isAuthPage) {
+      router.replace('/(auth)/login');
+    } else if (user && isAuthPage) {
+      router.replace('/(tabs)');
+    }
+    
+  }, [user, loading, pathname, router]);
+  
+  if (loading) return null;
+  
   return (
-    <ThemeProvider>
-    <StyledSafeAreaView >
-    <I18nextProvider i18n={i18n}>
-    <PortalProvider>
-    <AuthProvider>
-    <QuestProvider>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} redirect={true} />
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-      </Stack>
-    </QuestProvider>
-    </AuthProvider>
-    </PortalProvider>
-    </I18nextProvider>
-    </StyledSafeAreaView>
-    </ThemeProvider>
+    <Stack>
+      <Stack.Screen name="index" options={{ headerShown: false }} redirect={true} />
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+      <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+    </Stack>
   );
 }

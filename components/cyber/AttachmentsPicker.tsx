@@ -38,8 +38,8 @@ export function AttachmentsPicker({ attachments, onChange } : {
     } catch (error) {
       console.error('Error picking image:', error);
       Alert.alert(
-        t('add.attachmentError'),
-        t('add.attachmentError')
+        t('quests.form.attachmentError'),
+        t('quests.form.image')
       );
     }
   };
@@ -64,8 +64,8 @@ export function AttachmentsPicker({ attachments, onChange } : {
     } catch (error) {
       console.error('Error picking document:', error);
       Alert.alert(
-        t('add.attachmentError'),
-        t('add.attachmentError')
+        t('quests.form.attachmentError'),
+        t('quests.form.file')
       );
     }
   };
@@ -89,8 +89,8 @@ export function AttachmentsPicker({ attachments, onChange } : {
     } catch (error) {
       console.error('Error picking audio:', error);
       Alert.alert(
-        t('add.attachmentError'),
-        t('add.attachmentError')
+        t('quests.form.attachmentError'),
+        t('quests.form.audio'),
       );
     }
   };
@@ -102,7 +102,7 @@ export function AttachmentsPicker({ attachments, onChange } : {
   return (
     <YStack gap="$2">
       <Text fontFamily="$bold" fontSize="$4" color="$text">
-        {t('add.attachments')} ({attachments.length})
+        {t('quests.form.attachments')} ({attachments.length})
       </Text>
       
       <XStack gap="$2" flexWrap="wrap">
@@ -110,21 +110,21 @@ export function AttachmentsPicker({ attachments, onChange } : {
           onPress={handlePickImage}
           iconAfter={<CameraIcon color={theme.text.val} size={26}/>}
           >
-          {t('add.attachmentImage')}
+          {t('quests.form.image')}
         </Button>
         
         <Button
           onPress={handlePickDocument}
           iconAfter={<AttachmentIcon color={theme.text.val} size={14}/>}
         >
-          {t('add.attachmentFile')}
+          {t('quests.form.file')}
         </Button>
 
         <Button
           onPress={handlePickAudio}
           iconAfter={<AudioIcon color={theme.text.val} size={16}/>}
         >
-          {t('add.attachmentAudio')}
+          {t('quests.form.audio')}
         </Button>
       </XStack>
 

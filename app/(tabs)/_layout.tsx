@@ -1,14 +1,13 @@
-import { Tabs, usePathname } from 'expo-router';
-import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from 'tamagui';
+import { Tabs,  } from 'expo-router';
+import { useTheme, useThemeName } from 'tamagui';
 import AddIcon from '@/components/cyber/AddIcon';
 import HomeIcon from '@/components/cyber/HomeIcon';
 import SettingsIcon from '@/components/cyber/SettingsIcon';
-import { Platform, View } from 'react-native';
+import { Platform } from 'react-native';
 
 export default function TabLayout() {
-  const pathname = usePathname();
   const theme = useTheme();
+  const themeName = useThemeName();
 
  function getTabIcon(name: 'home' | 'add' | 'settings', focused: boolean, color: string) {
   const size = 50;
@@ -34,6 +33,8 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      key={themeName}
+      initialRouteName="index"
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
@@ -88,12 +89,20 @@ export default function TabLayout() {
           headerShown: false,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="edit"
         options={{
           href: null,
           headerShown: true,
         }}
+      /> */}
+      <Tabs.Screen
+        name="edit/[id]"
+        options={{
+          href: null,
+          headerShown: false,
+        }}
+        
       />
     </Tabs>
   );

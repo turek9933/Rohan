@@ -22,8 +22,9 @@ const CustomSwitch = ({
     <Button
       width={size}
       height={size}
-      borderWidth={4}
-      borderColor={value ? "$text" : '$borderColor'}
+      borderWidth={size / 10}
+      // borderColor={value ? "$text" : '$borderColor'}
+      borderColor={'$borderColor'}
       borderRadius={0}
       backgroundColor={value ? "$backgroundSecondary" : '$background'}
       alignItems="center"
@@ -45,7 +46,7 @@ const CustomSwitch = ({
           <Text
             key="x-mark"
             color="$x"
-            fontSize="$7"
+            fontSize={size ? size / 4 * 3 : "$7"}
             fontWeight="bold"
             textAlign="center"
             lineHeight="$7"

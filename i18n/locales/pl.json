@@ -54,7 +54,19 @@
     "fontList": "Lista fontów",
     "help": "Pomoc",
     "logout": "Wyloguj",
-    "fontPlaceholder": "Wybierz font"
+    "fontPlaceholder": "Wybierz font",
+    "fonts": {
+      "orbitron": "Orbitron",
+      "roboto": "Roboto",
+      "openSans": "Open Sans",
+      "lato": "Lato",
+      "montserrat": "Montserrat"
+    },
+    "checkLocation": "Sprawdź lokalizację",
+    "loading": "Ładowanie...",
+    "latitude": "Szerokość geograficzna",
+    "longitude": "Długosc geograficzna",
+    "languagePlaceholder": "Wybierz język"
   },
   "add": {
     "header": "Dodaj Misję",
@@ -88,5 +100,118 @@
     "saving": "Zapisywanie...",
     "confirm": "Potwierdź",
     "update": "Aktualizuj"
+  },
+  "quests": {
+    "header": "Misje",
+    "title": "Tytuł",
+    "description": "Opis",
+    "status": "Status",
+    "sort": {
+      "name_asc": "Alfabetycznie (A-Z)",
+      "name_desc": "Alfabetycznie (Z-A)",
+      "start_date_asc": "Data rozpoczęcia (najstarsze)",
+      "start_date_desc": "Data rozpoczęcia (najnowsze)",
+      "deadline_asc": "Termin (najwcześniejsze)",
+      "deadline_desc": "Termin (najpóźniejsze)",
+      "reward_asc": "Nagroda (najmniejsze)",
+      "reward_desc": "Nagroda (największe)",
+      "status_done_first": "Status (zrobione pierwsze)",
+      "status_undone_first": "Status (niezrobione pierwsze)"
+    },
+    "filter": {
+      "status": {
+        "all": "Wszystkie",
+        "done": "Zrobione",
+        "undone": "Niezrobione"
+      },
+      "deadline": {
+        "all": "Wszystkie",
+        "today": "Dziś",
+        "this_week": "Ten tydzień",
+        "this_month": "Ten miesiąc",
+        "overdue": "Po terminie",
+        "next_24_hours": "Następne 24h",
+        "next_7_days": "Następne 7 dni",
+        "next_30_days": "Następne 30 dni"
+      },
+      "reward": {
+        "all": "Wszystkie",
+        "with_reward": "Z nagrodą",
+        "without_reward": "Bez nagrody"
+      },
+      "subquest": {
+        "all": "Wszystkie",
+        "with_subquests": "Z podzadaniami",
+        "without_subquests": "Bez podzadań"
+      }
+    },
+    "sortBy": "Sortuj według",
+    "statusFilter": "Filtruj według statusu",
+    "deadlineFilter": "Filtruj według terminu",
+    "rewardFilter": "Filtruj według nagrody",
+    "subQuestFilter": "Filtruj według PodMisji",
+    "sortByPrefix": "Posortowane: ",
+    "statusFilterPrefix": "Status: ",
+    "deadlineFilterPrefix": "Termin: ",
+    "rewardFilterPrefix": "Nagroda: ",
+    "subQuestFilterPrefix": "PodMisje: ",
+    "filtersAndSort": "Filtry i sortowanie",
+    "noQuests": "Brak misji do wyświetlenia",
+    "done": "Zrobione",
+    "undone": "Niezrobione",
+    "resetFilters": "Resetuj filtry",
+    "close": "Zamknij",
+    "noDescription": "Brak opisu",
+    "startDate": "Data rozpoczęcia",
+    "noStartDate": "Brak",
+    "deadline": "Termin",
+    "noDeadline": "Brak terminu",
+    "attachments": "Załączniki",
+    "reward": "Nagroda",
+    "form": {
+      "title": "Tytuł",
+      "titlePlaceholder": "Wpisz tytuł",
+      "description": "Opis",
+      "descriptionPlaceholder": "Wpisz opis",
+      "startDate": "Data rozpoczęcia",
+      "deadline": "Termin",
+      "reward": "Nagroda",
+      "rewardPlaceholder": "Wpisz liczbę punktów",
+      "subquests": "Podmisje",
+      "subquestPlaceholder": "Treść podmisji",
+      "attachments": "Załączniki",
+      "notifications": "Powiadomienia",
+      "save": "Zapisz",
+      "update": "Aktualizuj",
+      "cancel": "Anuluj",
+      "attachmentError": "Błąd podczas dodawania załącznika",
+      "image": "Obraz",
+      "file": "Plik",
+      "audio": "Dźwięk",
+      "dateSelect": "Wybierz datę",
+      "importTitle": "Importuj Misje",
+      "importFeature": "Niedługo dodamy import Misji",
+      "importError": "Błąd podczas importowania Misji",
+      "importFromMarkdown": "Import z Markdown",
+      "validationError": "Błędne dane Misji",
+      "titleRequired": "Tytuł jest wymagany",
+      "error": "Błąd podczas dodawania Misji",
+      "details": "Szczegóły Misji",
+      "saving": "Zapisywanie...",
+      "confirm": "Potwierdź"
+    }
+  },
+  "edit": {
+    "header": "Edytuj",
+    "delete": "Usuń",
+    "notFound": "Misja nie znaleziona",
+    "ok": "OK",
+    "success": "Misja zaktualizowana pomyślnie",
+    "error": "Błąd podczas aktualizacji Misji"
+  },
+  "notFound": {
+    "header": "Nie znaleziono",
+    "message": "Strona, której szukasz, nie istnieje.",
+    "back": "Przejdź do strony głównej"
   }
 }
