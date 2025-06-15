@@ -41,8 +41,8 @@ export const useQuestFilters = (quests: Quest[]) => {
     let filtered = quests.filter(quest => {
 
       // Status filter
-      if (filters.statusFilter === 'done' && quest.metadata.status) return false;
-      if (filters.statusFilter === 'undone' && !quest.metadata.status) return false;
+      if (filters.statusFilter === 'done' && !quest.metadata.status) return false;
+      if (filters.statusFilter === 'undone' && quest.metadata.status) return false;
 
       // Deadline filter
       if (filters.deadlineFilter !== 'all' && quest.metadata.deadline) {
