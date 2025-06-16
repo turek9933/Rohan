@@ -26,8 +26,11 @@ export const UniversalSelector = ({
   const currentOption = options.find((option) => option.id === value);
   const displayText = currentOption?.label || placeholder;
 
+  if (!options || options.length === 0) {
+    return null;
+  }
+
   return (
-    <>
       <Select
         value={value}
         onValueChange={onValueChange}
@@ -69,9 +72,7 @@ export const UniversalSelector = ({
             <Select.Sheet 
             modal 
             dismissOnSnapToBottom
-            defaultPosition={100}
             snapPoints={[snapPoints, 10]}
-            
             >
             <Select.Sheet.Frame
                 backgroundColor="$background"
@@ -80,8 +81,11 @@ export const UniversalSelector = ({
                 borderRadius={0}
                 padding="$4"
             >
-                <Select.Sheet.ScrollView showsVerticalScrollIndicator={false}>
-                <Select.Adapt.Contents />
+                <Select.Sheet.ScrollView 
+                showsVerticalScrollIndicator={false}
+                keyboardShouldPersistTaps="handled"
+                >
+                  <Select.Adapt.Contents />
                 </Select.Sheet.ScrollView>
             </Select.Sheet.Frame>
             <Select.Sheet.Overlay 
@@ -140,6 +144,5 @@ export const UniversalSelector = ({
           </Select.Viewport>
         </Select.Content>
       </Select>
-    </>
   );
 };
