@@ -2,22 +2,22 @@ import { useState } from 'react';
 import { Button } from '@/components/cyber/Button';
 import ThemedBackground from '@/components/cyber/ThemedBackground';
 import { router } from 'expo-router';
-import { useAuthContext } from '@/context/AuthContext';
 import { useQuestContext } from '@/context/QuestContext';
 import QuestItem from '@/components/cyber/QuestItem';
 import ThemedBox from '@/components/cyber/ThemedBox';
 import HeaderCustom from '@/components/cyber/Header';
 import { t } from 'i18next';
-import { Text, View, YStack, XStack, Spacer, Sheet } from 'tamagui';
-import { SectionList, Alert } from 'react-native';
+import { Text, YStack, XStack, Spacer, Sheet, useTheme } from 'tamagui';
+import { SectionList, Pressable } from 'react-native';
 import { useQuestFilters } from '@/hooks/useQuestFilters';
 import { QuestFilterSelectors } from '@/components/cyber/QuestFilterSelectors';
+import RefreshIcon from '@/components/cyber/RefreshIcon';
 
 export default function IndexScreen() {
-  const { Quests, toggleQuestStatus, toggleSubQuestStatus } = useQuestContext()!;
-  const { logout } = useAuthContext();
+  const { Quests, toggleQuestStatus, toggleSubQuestStatus, refreshQuests } = useQuestContext()!;
   const [filterSheetOpen, setFilterSheetOpen] = useState(false);
   const { filters, updateFilter, filteredAndSortedQuests, sections } = useQuestFilters(Quests);
+  const theme = useTheme();
 
   const handleResetFilters = () => {
     updateFilter('sortOption', 'name_asc');
@@ -27,12 +27,24 @@ export default function IndexScreen() {
     updateFilter('subQuestFilter', 'all');
   };
 
+  const handleRefresh = () => {
+    refreshQuests();
+  };
+
   return (
     <ThemedBackground>
       <HeaderCustom headerText={t('quests.header')} />
 
       <YStack alignItems='center' padding="$2" flex={1}>
-        <XStack width="100%" justifyContent="flex-end" marginBottom="$2">
+        <XStack width="100%" justifyContent="space-between" marginBottom="$2" paddingHorizontal={10}>
+          <Pressable onPress={handleRefresh} alignSelf="center">
+                {({ pressed, hovered }) => (
+                  <RefreshIcon
+                    color={pressed ? theme.headerText?.val : (hovered ? theme.text?.val : theme.borderColor?.val)}
+                    size={30}
+                    />
+                )}
+              </Pressable>
           <Button onPress={() => setFilterSheetOpen(true)}>
             {t('quests.filtersAndSort')}
           </Button>

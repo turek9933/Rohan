@@ -1,6 +1,7 @@
 import { collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where } from 'firebase/firestore';
 import { db } from '@/firebase';
 import { Quest, QuestMetadata, SubQuest } from '@/types/Quest';
+import { QuestFormData } from '@/types/QuestFormData';
 
 const QUESTS_COLLECTION = 'quests';
 
@@ -78,7 +79,7 @@ export async function getQuestsByUser(userId: string): Promise<Quest[]> {
                     id: doc.id,
                     status: data.metadata.status,
                     startDate: data.metadata.startDate ? data.metadata.startDate.toDate() : undefined,
-                    deadline: data.metadata.startDate ? data.metadata.startDate.toDate() : undefined,
+                    deadline: data.metadata.deadline ? data.metadata.deadline.toDate() : undefined,
                     reward: data.metadata.reward,
                 },
                 title: data.title,
@@ -94,6 +95,34 @@ export async function getQuestsByUser(userId: string): Promise<Quest[]> {
         return [];
     }
 }
+
+export async function updateQuestDetailsToFirebase(id: string, updates: Partial<QuestFormData>): Promise<void> {
+    try {
+        const docRef = doc(db, QUESTS_COLLECTION, id);
+        const updateData: any = {};
+
+        console.log("[updateQuestDetailsToFirebase] Updates:\t", updates);
+        console.log(updates.reward);
+        console.log(Number(updates.reward));
+        console.log("Nuber(updates.reward) /\\");
+
+        if (updates.title) updateData.title = updates.title;
+        if (updates.description) updateData.description = updates.description;
+        if (updates.subQuests) updateData.subQuests = updates.subQuests;
+        if (updates.attachments) updateData.attachments = updates.attachments;
+        if (updates.startDate) updateData['metadata.startDate'] = updates.startDate;
+        if (updates.deadline) updateData['metadata.deadline'] = updates.deadline;
+        if (updates.reward) {
+            const rewardValue = typeof updates.reward === 'string' ? Number(updates.reward) : updates.reward;
+            updateData['metadata.reward'] = rewardValue;
+        }
+
+        await updateDoc(docRef, updateData);
+    } catch (error) {
+        console.error('[updateQuestDetails] Error during updating Quest details:', error);
+    }
+}
+
 
 export async function deleteQuest(id: string): Promise<void> {
     try {

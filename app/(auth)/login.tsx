@@ -29,15 +29,12 @@ export default function LoginScreen() {
       router.replace("/(tabs)");
     }
   });
-console.log('LoginScreen loaded');
 
   const handleLogin = async () => {
     setIsLoading(true);
     setLoginError(false);
     
-    console.error('[(auth)/login] LoginHandle');
     try {
-      console.error('[(auth)/login] LoginHandle is trying to login');
       const success = await login(email, password);
       setLoginError(!success);
     } catch (error) {

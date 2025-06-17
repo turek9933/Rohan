@@ -18,6 +18,7 @@ import { ImportSection } from '@/components/cyber/ImportSection';
 import { QuestFormData } from '@/types/QuestFormData';
 import ThemedBox from '@/components/cyber/ThemedBox';
 import CustomSwitch from '@/components/cyber/CustomSwitch';
+import { useQuestContext } from '@/context/QuestContext';
 
 
 export function QuestForm({ 
@@ -34,6 +35,7 @@ export function QuestForm({
   isLoading?: boolean;
 }) {
   const { t } = useTranslation();
+  const { refreshQuests } = useQuestContext()!;
   
   const [formData, setFormData] = useState<QuestFormData>({
     title: initialData?.title || '',
@@ -65,6 +67,7 @@ export function QuestForm({
 
     try {
       await onSubmit(formData);
+      await refreshQuests();
     } catch (error) {
       console.error('Error submitting quest:', error);
       Alert.alert(

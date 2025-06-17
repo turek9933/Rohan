@@ -9,16 +9,19 @@ import {
   deleteAllQuestsByUser,
   updateQuestSubQuests,
   updateQuestMetadata,
+  updateQuestDetailsToFirebase
 } from '@/api/questApi';
 import { useAuthContext } from '@/context/AuthContext';
 import NetInfo from '@react-native-community/netinfo'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { QuestFormData } from '@/types/QuestFormData';
 
 type PendingChange =
 | {type: 'add', quest: Omit<Quest, 'metadata'> & { metadata: Omit<QuestMetadata, 'id'> }, tempId: string }
 | {type: 'edit', id: string, updates: Partial<Quest>}
 | {type: 'remove', id: string}
 | {type: 'toggleStatus', id: string, newStatus: boolean}
+| {type: 'updateQuestDetails', questId: string, updates: Partial<QuestFormData>}
 | {type: 'updateSubQuests', questId: string, subQuests: SubQuest[]}
 | {type: 'updateMetadata', questId: string, updates: Partial<QuestMetadata>};
 
@@ -29,8 +32,9 @@ interface QuestContextType {
   toggleQuestStatus: (id: string) => void;
   updateSubQuests: (QuestId: string, subQuests: SubQuest[]) => void;
   toggleSubQuestStatus: (questId: string, subQuestIndex: number) => void;
-  updateQuestDetails: (QuestId: string, updates: Partial<QuestMetadata>) => void;
+  updateQuestDetails: (QuestId: string, updates: Partial<QuestFormData>) => void;
   resetQuests: () => void;
+  refreshQuests: () => Promise<void>;
   addSampleQuests: (userId: string) => void;
   completedQuestsCount: number;
   totalQuestsCount: number;
@@ -42,6 +46,7 @@ const QuestContext = createContext<QuestContextType | undefined>(undefined);
 export function QuestProvider({ children }: { children: ReactNode }) {
   const [Quests, setQuests] = useState<Quest[]>([]);
   const { user } = useAuthContext()!;
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   // Handling offline mode
   const [isOnline, setIsOnline] = useState(true);
@@ -159,6 +164,10 @@ export function QuestProvider({ children }: { children: ReactNode }) {
 
           case 'toggleStatus':
             await updateQuestStatus(change.id, change.newStatus);
+            break;
+
+          case 'updateQuestDetails':
+            await updateQuestDetails(change.questId, change.updates);
             break;
 
           case 'updateSubQuests':
@@ -311,24 +320,38 @@ export function QuestProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateQuestDetails = async (QuestId: string, updates: Partial<QuestMetadata>) => {
-    const newQuests = Quests.map((Quest) =>
-      Quest.metadata.id === QuestId 
-        ? { ...Quest, metadata: { ...Quest.metadata, ...updates } } 
-        : Quest
-    );
+  const updateQuestDetails = async (QuestId: string, updates: Partial<QuestFormData>) => {
+    const newQuests = Quests.map((Quest) => {
+      if (Quest.metadata.id !== QuestId) return Quest;
+
+      return {
+        ...Quest,
+        title: updates.title ?? Quest.title,
+        description: updates.description ?? Quest.description,
+        subQuests: updates.subQuests ?? Quest.subQuests,
+        attachments: updates.attachments ?? Quest.attachments,
+        metadata: {
+          ...Quest.metadata,
+          startDate: updates.startDate ?? Quest.metadata.startDate,
+          deadline: updates.deadline ?? Quest.metadata.deadline,
+          reward: updates.reward !== undefined ? Number(updates.reward) : Quest.metadata.reward,
+        }
+      };
+    });
+
     setQuests(newQuests);
+
     await saveQuestsToStorage(newQuests);
 
     if (isOnline) {
       try {
-        await updateQuestMetadata(QuestId, updates);
+        await updateQuestDetailsToFirebase(QuestId, updates);
       } catch (error) {
         console.error('Error updating quest metadata:', error);
-        await addPendingChange({ type: 'updateMetadata', questId: QuestId, updates });
+        await addPendingChange({ type: 'updateQuestDetails', questId: QuestId, updates });
       }
     } else {
-      await addPendingChange({ type: 'updateMetadata', questId: QuestId, updates });
+      await addPendingChange({ type: 'updateQuestDetails', questId: QuestId, updates });
     }
   };
 
@@ -388,6 +411,39 @@ export function QuestProvider({ children }: { children: ReactNode }) {
       } catch (error) {
         console.error('Error resetting quests:', error);
       }
+    }
+  };
+
+    const refreshQuests = async (): Promise<void> => {
+    if (!user) {
+      console.warn('[QuestContext] No user for refresh.');
+      return;
+    }
+
+    setIsRefreshing(true);
+    
+    try {
+      console.log('[QuestContext] Refreshing quests...');
+      
+      if (isOnline) {
+        if (pendingChanges.length > 0) {
+          await syncPendingChanges();
+        }
+        
+        const freshQuests = await getQuestsByUser(user.uid);
+        setQuests(freshQuests);
+        await saveQuestsToStorage(freshQuests);
+        
+        console.log('[QuestContext] Quests refreshed successfully:', freshQuests.length);
+      } else {
+        await loadQuestsFromStorage();
+        console.log('[QuestContext] Quests refreshed from storage (offline)');
+      }
+    } catch (error) {
+      console.error('[QuestContext] Error refreshing quests:', error);
+      await loadQuestsFromStorage();
+    } finally {
+      setIsRefreshing(false);
     }
   };
 
@@ -451,6 +507,7 @@ export function QuestProvider({ children }: { children: ReactNode }) {
       toggleSubQuestStatus,
       updateQuestDetails,
       resetQuests,
+      refreshQuests,
       addSampleQuests,
       completedQuestsCount,
       totalQuestsCount,

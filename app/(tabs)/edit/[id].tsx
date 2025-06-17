@@ -47,9 +47,9 @@ export default function EditQuestScreen() {
       const questData = {
         title: formData.title.trim(),
         description: formData.description.trim() || undefined,
-        startDate: formData.startDate,
-        deadline: formData.deadline,
-        reward: formData.reward ? parseFloat(formData.reward) : undefined,
+        startDate: formData.startDate || undefined,
+        deadline: formData.deadline || undefined,
+        reward: formData.reward || undefined,
       };
 
       await updateQuestDetails(quest.metadata.id, questData);
