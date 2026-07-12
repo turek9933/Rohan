@@ -2,7 +2,7 @@
   "expo": {
     "name": "Rohan",
     "slug": "Rohan",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "primaryColor": "#7A0B0B",
