@@ -4,7 +4,7 @@ import { config as configBase } from '@tamagui/config/v3'
 const cyberTheme = {
   white: '#FFFFFF',
   black: '#000000',
-  
+
   redDark: '#7A0B0B',
   red: '#A50C0C',
   gold: '#EBB862',
@@ -21,7 +21,7 @@ const cyberTheme = {
   borderColor: '#EBB862',
   borderColorSecondary: '#A50C0C',
   error: '#F5FCD3',
-  
+
   backgroundHover: '#A50C0C',
   borderColorHover: '#F5FCD3',
   backgroundPress: '#A50C0C',
@@ -59,7 +59,7 @@ const lightTheme = {
   borderColor: '#7B841F',
   borderColorSecondary: '#CDD3D9',
   error: '#458E95',
-  
+
   backgroundHover: '#CDD3D9',
   borderColorHover: '#458E95',
   backgroundPress: '#CDD3D9',
@@ -68,7 +68,7 @@ const lightTheme = {
   viewBg1: '#EBEDF0',
   viewBg2: '#CDD3D9',
   viewBg3: '#000000',
-  
+
   tabIcon: '#CDD3D9',
   tabIconActive: '#8F3886',
   tabIconBackground: '#EBEDF0',
@@ -97,7 +97,7 @@ const darkTheme = {
   borderColor: '#D2F69C',
   borderColorSecondary: '#062653',
   error: '#CFE2FC',
-  
+
   backgroundHover: '#062653',
   borderColorHover: '#CFE2FC',
   backgroundPress: '#062653',
@@ -116,39 +116,39 @@ const darkTheme = {
 
 const RegularFont = createFont({
   family: 'Orbitron-Regular',
-      size: {
-        1: 8,
-        2: 10,
-        3: 12,
-        4: 14,
-        5: 16,
-        6: 18,
-        7: 20,
-        8: 24,
-        9: 30,
-        10: 42,
-      },
-      lineHeight: {
-        1: 16,
-        2: 18,
-        3: 20,
-        4: 22,
-        5: 24,
-        6: 28,
-        7: 32,
-        8: 36,
-        9: 40,
-        10: 46,
-      },
-      letterSpacing: {
-        1: 0,
-        2: -0.5,
-        3: 1,
-        4: 1.5,
-        5: 2,
-        6: 2.5,
-        7: 3,
-      },
+  size: {
+    1: 8,
+    2: 10,
+    3: 12,
+    4: 14,
+    5: 16,
+    6: 18,
+    7: 20,
+    8: 24,
+    9: 30,
+    10: 42,
+  },
+  lineHeight: {
+    1: 16,
+    2: 18,
+    3: 20,
+    4: 22,
+    5: 24,
+    6: 28,
+    7: 32,
+    8: 36,
+    9: 40,
+    10: 46,
+  },
+  letterSpacing: {
+    1: 0,
+    2: -0.5,
+    3: 1,
+    4: 1.5,
+    5: 2,
+    6: 2.5,
+    7: 3,
+  },
 });
 const BoldFont = createFont({
   family: 'Orbitron-Bold',
@@ -231,6 +231,11 @@ const config = createTamagui({
     light: lightTheme,
     dark: darkTheme,
   },
+  settings: {
+    ...(configBase as any).settings,
+    shouldAddPrefersColorThemes: false,
+    themeClassNameOnRoot: false,
+  },
   tokens: {
     ...configBase.tokens,
     // No rounding
@@ -260,7 +265,7 @@ const config = createTamagui({
       '$6': 24,
     }
   },
-fonts: {
+  fonts: {
     ...configBase.fonts,
 
     regular: RegularFont,
@@ -272,7 +277,7 @@ fonts: {
 export type AppConfig = typeof config
 
 declare module '@tamagui/core' {
-  interface TamaguiCustomConfig extends AppConfig {}
+  interface TamaguiCustomConfig extends AppConfig { }
 }
 
 export default config

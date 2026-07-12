@@ -1,6 +1,7 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 import { TamaguiProvider, Theme } from '@tamagui/core';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'expo-status-bar';
 import config from '@/tamagui.config';
 
 export type ThemeType = 'light' | 'dark' | 'cyber';
@@ -21,8 +22,6 @@ export const ThemeContext = createContext<{
   setNewTheme: () => {},
 });
 
-import { useEffect } from 'react';
-
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
   const [theme, setTheme] = useState<ThemeType>('cyber');
 
@@ -39,14 +38,19 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     saveTheme(newTheme);
   };
 
+  const statusBarStyle = theme === 'light' ? 'dark' : 'light';
+
   return (
-    <TamaguiProvider config={config}>
-      <Theme name={theme}>
-        <ThemeContext.Provider value={{ theme, setNewTheme }}>
-          {children}
-        </ThemeContext.Provider>
-      </Theme>
-    </TamaguiProvider>
+    <>
+      <StatusBar style={statusBarStyle} />
+      <TamaguiProvider config={config} defaultTheme={theme}>
+        <Theme name={theme}>
+          <ThemeContext.Provider value={{ theme, setNewTheme }}>
+            {children}
+          </ThemeContext.Provider>
+        </Theme>
+      </TamaguiProvider>
+    </>
   );
 };
 

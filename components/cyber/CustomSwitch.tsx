@@ -57,8 +57,8 @@ const CustomSwitch = ({
               opacity: 0, 
               scale: 0.4,
               rotateZ: '-30deg',
-              x: -80,
-              y: 60,
+              translateX: -80,
+              translateY: 60,
               color: '$title'
             }}
 
@@ -66,8 +66,8 @@ const CustomSwitch = ({
               opacity: 0, 
               scale: 1.6,
               rotateZ: '30deg',
-              x: 10,
-              y: -10,
+              translateX: 10,
+              translateY: -10,
               color: '$title'
             }}
 

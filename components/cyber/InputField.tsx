@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, View, Label, XStack, YStack, styled } from 'tamagui';
+import { Input, View, Label, YStack } from 'tamagui';
 
 export const InputField = ({
   title,

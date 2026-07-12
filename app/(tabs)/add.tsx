@@ -6,8 +6,7 @@ import { QuestFormData } from '@/types/QuestFormData';
 import ThemedBackground from '@/components/cyber/ThemedBackground';
 import HeaderCustom from '@/components/cyber/Header';
 import { t } from 'i18next';
-import { View, ScrollView, YStack, Spacer } from 'tamagui';
-import { Button } from '@/components/cyber/Button';
+import { ScrollView, YStack } from 'tamagui';
 import { useRouter } from 'expo-router';
 
 export default function AddScreen({ onClose }: { onClose?: () => void }) {

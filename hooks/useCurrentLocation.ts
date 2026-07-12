@@ -5,16 +5,14 @@ export function useCurrentLocation() {
   const [location, setLocation] = useState<Location.LocationObject | null>(null)
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  console.log("status");
 
   const requestLocation = useCallback(async () => {
     setLoading(true)
     setErrorMsg(null)
     setLocation(null)
-    console.log("status");
     try {
       const { status } = await Location.requestForegroundPermissionsAsync()
-      if (status !== 'granted') {
+      if (status !== Location.PermissionStatus.Granted) {
         setErrorMsg('Brak zgody na lokalizację')
         setLoading(false)
         return

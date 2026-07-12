@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Spacer, Text } from '@tamagui/core';
 import { YStack, ScrollView } from 'tamagui';
-import { useFocusEffect, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { useAuthContext } from "@/context/AuthContext";
-// import { useProductContext } from "@/context/ProductContext";
-import { auth } from "@/firebase";
 import ThemedBox from "@/components/cyber/ThemedBox";
 import ThemedBackground from "@/components/cyber/ThemedBackground";
 import { Button } from "@/components/cyber/Button";
@@ -25,8 +23,6 @@ export default function RegisterScreen() {
     const [isLoading, setIsLoading] = useState(false);
     const { t } = useTranslation();
 
-    // const { addSampleProducts } = useProductContext();
-
     const handleRegister = async() => {
       setIsLoading(true);
       // Checks if password is not empty and if is confirmed
@@ -43,14 +39,6 @@ export default function RegisterScreen() {
           return;
         }
         
-        // const unsubscribe = auth.onAuthStateChanged(async (user) => {
-        //   if (user) {
-        //     console.log('[(auth)/register.tsx] Wykryto zmiane uzytkownika. User:\t', user);
-        //     console.log('[(auth)/register.tsx] Dodawanie przykladowych produktow');
-        //     // await addSampleProducts(user.uid);
-        //     unsubscribe();
-        //   }
-        // })
         Alert.alert('Rejestracja', 'Rejestracja przebiegła pomyślnie');
         router.replace("/(auth)/login");
       } catch (error) {

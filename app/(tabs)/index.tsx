@@ -38,26 +38,17 @@ export default function IndexScreen() {
       <YStack alignItems='center' padding="$2" flex={1}>
         <XStack width="100%" justifyContent="space-between" marginBottom="$2" paddingHorizontal={10}>
           <Pressable onPress={handleRefresh} alignSelf="center">
-                {({ pressed, hovered }) => (
-                  <RefreshIcon
-                    color={pressed ? theme.headerText?.val : (hovered ? theme.text?.val : theme.borderColor?.val)}
-                    size={30}
-                    />
-                )}
-              </Pressable>
+            {({ pressed, hovered }) => (
+              <RefreshIcon
+                color={pressed ? theme.headerText?.val : (hovered ? theme.text?.val : theme.borderColor?.val)}
+                size={30}
+              />
+            )}
+          </Pressable>
           <Button onPress={() => setFilterSheetOpen(true)}>
             {t('quests.filtersAndSort')}
           </Button>
         </XStack>
-
-            {/* <Button alignSelf="center" onPress={() => {router.push('/(auth)/login');}}>TO LOGIN</Button>
-            <Button onPress={() => {logout()}}>LOGOut pLS</Button>
-            <Button onPress={() => {router.push('/(tabs)/help');}}>TO Help</Button>
-            <Button onPress={() => {router.push('/(tabs)/edit/1');}}>TO edit</Button>
-            <Button onPress={() => {console.log(Quests)}}>Print Quests</Button> */}
-
-
-
 
         {/* Filter and Sort Panel */}
         <Sheet
@@ -86,7 +77,6 @@ export default function IndexScreen() {
             </Button>
           </Sheet.Frame>
         </Sheet>
-        
 
         <SectionList
           sections={sections}
@@ -109,7 +99,7 @@ export default function IndexScreen() {
               <QuestItem
                 quest={item}
                 onToggleStatus={toggleQuestStatus}
-                onEdit={() => {router.push(`/(tabs)/edit/${item.metadata.id}`);}}
+                onEdit={() => { router.push(`/(tabs)/edit/${item.metadata.id}`); }}
                 onToggleSubQuest={toggleSubQuestStatus}
               />
             </ThemedBox>
