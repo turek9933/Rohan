@@ -1,7 +1,7 @@
 services:
   rohan:
     build:
-      context: ./Rohan
+      context: ./
       dockerfile: Dockerfile
       args:
         EXPO_PUBLIC_FIREBASE_API_KEY: ${EXPO_PUBLIC_FIREBASE_API_KEY}
