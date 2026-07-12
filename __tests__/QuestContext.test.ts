@@ -5,16 +5,20 @@ import { useAuthContext } from '@/context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo, { NetInfoState, NetInfoStateType } from '@react-native-community/netinfo';
 import { addQuestToFirebase, getQuestsByUser } from '@/api/questApi';
-import { User } from 'firebase/auth';
-
+import type { User } from 'firebase/auth';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock')
 );
 
+jest.mock('@/firebase', () => ({
+  auth: {},
+  db: {},
+}));
 
-jest.mock('@/context/AuthContext');
-jest.mock('@react-native-async-storage/async-storage');
+jest.mock('@/context/AuthContext', () => ({
+  useAuthContext: jest.fn(),
+}));
 jest.mock('@react-native-community/netinfo');
 jest.mock('@/api/questApi');
 

@@ -24,7 +24,9 @@
         "backgroundColor": "#7A0B0B"
       },
       "package": "com.anonymous.Rohan",
-      "permissions": ["ACCESS_FINE_LOCATION"]
+      "permissions": [
+        "ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -43,7 +45,10 @@
             "./assets/fonts/Orbitron-Bold.ttf"
           ]
         }
-      ]
+      ],
+      "@react-native-community/datetimepicker",
+      "expo-localization",
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true

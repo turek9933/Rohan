@@ -3,6 +3,7 @@ import { initializeAuth, getReactNativePersistence, getAuth } from 'firebase/aut
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 import { getFirestore } from "firebase/firestore";
 import { Platform } from "react-native";
+import type { Auth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -11,13 +12,12 @@ const firebaseConfig = {
   storageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID,
-  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_IDjl
+  measurementId: process.env.EXPO_PUBLIC_FIREBASE_MEASUREMENT_ID
 }
 
 const app = initializeApp(firebaseConfig);
 
-
-let auth: any;
+let auth: Auth;
 
 if (Platform.OS === 'web') {
   console.log('[firebase] web');

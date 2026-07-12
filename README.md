@@ -64,7 +64,7 @@ Służy ona jako zaawansowana lista Misji ze skromnymi elementami grywalizacji o
 - Responsywny i nowoczesny interfejs (Tamagui).
 - Test jednostkowy dla logiki i komponentów.
 - Instrukcja budowania i uruchamiania aplikacji.
-- Grywalizacja: system punktów nie został wdrożony, ale pojedyńcze zadanie posiada atrybut punktów.
+- Grywalizacja: system punktów nie został wdrożony, ale pojedyncze zadanie posiada atrybut punktów.
 
 ---
 
